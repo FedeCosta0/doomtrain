@@ -2082,7 +2082,7 @@ namespace Doomtrain
                     Kernel[OffsetToDuelSelected + 7] = Convert.ToByte(variable); //Attack power
                     return;
                 case 3:
-                    Kernel[OffsetToDuelSelected + 8] = (byte)(Kernel[OffsetToDuelSelected + 8] ^ Convert.ToByte(variable)); //attack flags
+                    Kernel[OffsetToDuelSelected + 11] = (byte)(Kernel[OffsetToDuelSelected + 11] ^ Convert.ToByte(variable)); //attack flags, bugfix correct offset is 11
                     return;
                 case 4:
                     Kernel[OffsetToDuelSelected + 10] = (byte)(Kernel[OffsetToDuelSelected + 10] ^ Convert.ToByte(variable)); //default target
@@ -4205,10 +4205,9 @@ namespace Doomtrain
             selectedDuelOffset += 4 + 2;
             GetSelectedDuelData.AttackType = Kernel[selectedDuelOffset++];
             GetSelectedDuelData.AttackPower = Kernel[selectedDuelOffset++];
-            GetSelectedDuelData.AttackFlags = Kernel[selectedDuelOffset++];
-            selectedDuelOffset += 1;
+            selectedDuelOffset += 2;
             GetSelectedDuelData.Target = Kernel[selectedDuelOffset++];
-            selectedDuelOffset += 1;
+            GetSelectedDuelData.AttackFlags = Kernel[selectedDuelOffset++];
             GetSelectedDuelData.HitCount = Kernel[selectedDuelOffset++];
 
             byte b = Kernel[selectedDuelOffset++];
