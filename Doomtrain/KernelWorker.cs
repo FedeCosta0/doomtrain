@@ -462,6 +462,8 @@ namespace Doomtrain
             public UInt16 MagicID;
             public byte AttackType;
             public byte AttackFlags;
+            public byte Target;
+            public byte HitCount;
             public Element Element;
             public byte StatusAttack;
             public byte CritBonus;
@@ -1709,15 +1711,21 @@ namespace Doomtrain
                     Kernel[OffsetToBlueMagicSelected + 7] = Convert.ToByte(variable); //attack type
                     return;
                 case 2:
-                    Kernel[OffsetToBlueMagicSelected + 10] ^= Convert.ToByte(variable); //flags
+                    Kernel[OffsetToBlueMagicSelected + 9] ^= Convert.ToByte(variable); //target info
                     return;
                 case 3:
-                    Kernel[OffsetToBlueMagicSelected + 12] = Convert.ToByte(variable); //element
+                    Kernel[OffsetToBlueMagicSelected + 10] ^= Convert.ToByte(variable); //attack flags
                     return;
                 case 4:
-                    Kernel[OffsetToBlueMagicSelected + 13] = Convert.ToByte(variable); //status attack
+                    Kernel[OffsetToBlueMagicSelected + 11] = Convert.ToByte(variable); //hit count
                     return;
                 case 5:
+                    Kernel[OffsetToBlueMagicSelected + 12] = Convert.ToByte(variable); //element
+                    return;
+                case 6:
+                    Kernel[OffsetToBlueMagicSelected + 13] = Convert.ToByte(variable); //status attack
+                    return;
+                case 7:
                     Kernel[OffsetToBlueMagicSelected + 14] = Convert.ToByte(variable); //crit bonus
                     return;
 
@@ -3953,9 +3961,10 @@ namespace Doomtrain
             GetSelectedBlueMagicData.MagicID = (ushort)(BitConverter.ToUInt16(Kernel, selectedBlueMagicOffset + 4));
             selectedBlueMagicOffset += 7;
             GetSelectedBlueMagicData.AttackType = Kernel[selectedBlueMagicOffset++];
-            selectedBlueMagicOffset += 2;
-            GetSelectedBlueMagicData.AttackFlags = Kernel[selectedBlueMagicOffset++];
             selectedBlueMagicOffset += 1;
+            GetSelectedBlueMagicData.Target = Kernel[selectedBlueMagicOffset++];
+            GetSelectedBlueMagicData.AttackFlags = Kernel[selectedBlueMagicOffset++];
+            GetSelectedBlueMagicData.HitCount = Kernel[selectedBlueMagicOffset++];
             byte b = Kernel[selectedBlueMagicOffset++];
             GetSelectedBlueMagicData.Element =
                 b == (byte)Element.Fire
